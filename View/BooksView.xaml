@@ -1,0 +1,154 @@
+﻿<UserControl x:Class="Biblioteka.View.BooksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Biblioteka.ViewModel"
+             xmlns:localB="clr-namespace:Biblioteka.ViewModel"
+             xmlns:vm="clr-namespace:Biblioteka.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:BooksViewModel x:Key="vm"></vm:BooksViewModel>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:BooksViewModel/>
+    </UserControl.DataContext>
+    <Grid DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Grid  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="450"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid MinWidth="300" Grid.Column="0" >
+                    <DataGrid Margin="5,5,0,9.6" x:Name="booksSQLTable" ItemsSource="{Binding BooksList }" SelectedItem="{Binding SelectedRow}" SelectionMode="Single" AutoGenerateColumns="False" 
+                              CanUserAddRows="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path='Id', Mode=TwoWay}" IsReadOnly="True" Width="40" />
+                            <DataGridTextColumn Header="Tytuł książki" Binding="{Binding Path='titleBook', Mode=TwoWay}" IsReadOnly="True" Width="130" />
+                            <DataGridTextColumn Header="Typ książki" Binding="{Binding Path='typeBook', Mode=TwoWay}" IsReadOnly="True" Width="130" />
+                            <DataGridTextColumn Header="Wydawca" Binding="{Binding Path='publisher', Mode=TwoWay}" IsReadOnly="True" Width="130" />
+                            <DataGridTextColumn Header="Imię autora" Binding="{Binding Path='firstNameAuthor', Mode=TwoWay}" IsReadOnly="True" Width="130"/>
+                            <DataGridTextColumn Header="Nazwisko autora" Binding="{Binding Path='lastNameAuthor', Mode=TwoWay}" IsReadOnly="True" Width="130"/>
+                            <DataGridTextColumn Header="Data wydania" Binding="{Binding Path='releaseDate', Mode=TwoWay}" IsReadOnly="True" Width="80" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="31*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" >
+                    <Label>Tytuł</Label>
+                    <TextBox Text="{Binding NewTitleBook, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" >
+                    <Label>Typ</Label>
+                    <ComboBox Name="TypeListCombobox"  ItemsSource="{Binding TypeBookList}" SelectedValue="{Binding NewTypeBook}" Height="25" Width="120" Margin="5,0,5,0"  IsEditable="True" ></ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="2" >
+                    <Label>Wydawca</Label>
+                    <TextBox Text="{Binding NewPublisher, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>                
+                <Button x:Name="createAuthor" Command="{Binding addBookCommand}" IsEnabled="{Binding CanCreate}" Content="Dodaj dane kasiążki" Grid.Column="3"   Grid.Row="1" />
+                <StackPanel  Grid.Column="4">
+                    <Label Content="Wybierz autora"/>
+                    <ComboBox Name="AuthorsListCombobox"  ItemsSource="{Binding AuthorsList}" SelectedValue="{Binding SelectedAuthorList}" Height="25" Width="120" Margin="5,0,5,0"></ComboBox>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="2" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="31*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="1" >
+                    <Label>Autor</Label>
+                    <ComboBox Name="AuthorListCombobox"  ItemsSource="{Binding AuthorsList}" SelectedValue="{Binding NewAuthorBook}" Height="25" Width="120" Margin="5,0,5,0"  IsEditable="True" ></ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="2" >
+                    <Label>Data wydania</Label>
+                    <TextBox Text="{Binding NewReleaseDate, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <Button x:Name="deleteBook" Command="{Binding deleteBookCommand}" IsEnabled="{Binding IsSelected}" Content="Usuń dane książki" Grid.Column="3"/>
+                <StackPanel Grid.Column="4">
+                    <Label Content="Wybierz - Typ książki"/>
+                    <ComboBox Name="TitleListCombobox"  ItemsSource="{Binding TypeBookList}" SelectedValue="{Binding SelectedTypeBook}" Height="25" Width="120" Margin="5,0,5,0"  IsEditable="True" ></ComboBox>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+
+        <DockPanel Grid.Row="3" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="31*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" >
+                    <Label>Tytuł</Label>
+                    <TextBox Text="{Binding SelectedRow.titleBook, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" >
+                    <Label>Typ</Label>
+                    <TextBox Text="{Binding SelectedRow.typeBook,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" >
+                    <Label>Wydawca</Label>
+                    <TextBox Text="{Binding SelectedRow.publisher, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="4" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="31*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0">
+                    <Label>Imię autora</Label>
+                    <TextBox Text="{Binding SelectedRow.firstNameAuthor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Label>Nazwisko autora</Label>
+                    <TextBox Text="{Binding SelectedRow.lastNameAuthor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="2" >
+                    <Label>Data wydania</Label>
+                    <TextBox Text="{Binding SelectedRow.releaseDate, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <Button x:Name="update" Command="{Binding updateBookCommand}" Content="Zmień dane książki" Grid.Column="3"/>
+            </Grid>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

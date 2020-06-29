@@ -1,0 +1,92 @@
+﻿<mah:MetroWindow x:Class="Biblioteka.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:localViewModel="clr-namespace:Biblioteka.ViewModel"
+                 xmlns:localTViewModel="clr-namespace:Biblioteka.ViewModel"
+                 xmlns:localBViewModel="clr-namespace:Biblioteka.ViewModel"
+                 xmlns:localView="clr-namespace:Biblioteka.View"
+                 xmlns:localTView="clr-namespace:Biblioteka.View"
+                 xmlns:localBView="clr-namespace:Biblioteka.View"
+                 Title="MainWindow"
+                 Width="800"
+                 Height="880"
+                 WindowStartupLocation="CenterScreen"
+                 mc:Ignorable="d">
+    <mah:MetroWindow.Resources>
+        <DataTemplate DataType="{x:Type localViewModel:AuthorsViewModel}">
+            <localView:AuthorsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type localTViewModel:TypesBooksViewModel}">
+            <localTView:TypeBooksView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type localBViewModel:BooksViewModel}">
+            <localBView:BooksView/>
+        </DataTemplate>
+        
+    </mah:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+
+            <Ribbon x:Name="RibbonWin"  SelectedIndex="0" >
+                <!-- Help Pane, located at the right-hand side -->
+                <Ribbon.HelpPaneContent>
+                    <Grid>
+                        <DockPanel>
+                            <!--<RibbonButton SmallImageSource="..\Images\apps.png" />-->
+                            <Label Name="HelloLibrary" Content="Witaj w Bibliotece"/>
+                        </DockPanel>
+                    </Grid>
+                </Ribbon.HelpPaneContent>
+                <!-- Quick Access Toolbar - located at the upper-left corner -->
+                <!--<Ribbon.QuickAccessToolBar>
+                    <RibbonQuickAccessToolBar Margin="0,1,0,0">
+                        <RibbonButton x:Name ="Save0" SmallImageSource="..\Images\LetterP.png" />
+                        <RibbonButton x:Name ="Save1" SmallImageSource="..\Images\LetterR.png" />
+                        <RibbonButton x:Name ="Save2" SmallImageSource="..\Images\LetterO.png" />
+                        <RibbonButton x:Name ="Save3" SmallImageSource="..\Images\LetterL.png" />
+                        <RibbonButton x:Name ="Save4" SmallImageSource="..\Images\LetterO.png" />
+                        <RibbonButton x:Name ="Save5" SmallImageSource="..\Images\LetterG.png" />                        
+                    </RibbonQuickAccessToolBar>
+                </Ribbon.QuickAccessToolBar>-->
+                <!-- Application Menu, located at the left-hand side (down arrow) -->
+                <Ribbon.ApplicationMenu>
+                    <RibbonApplicationMenu KeyTip="F">
+                        <RibbonApplicationMenuItem  Header="Autorzy"  Command="{Binding AuthorsCommand}" />
+                        <RibbonApplicationMenuItem  Header="Typy książek"  Command="{Binding TypesBooksCommand}" />
+                        <RibbonApplicationMenuItem  Header="Książki"  Command="{Binding BooksCommand}" />
+                    </RibbonApplicationMenu>
+                </Ribbon.ApplicationMenu>
+                <!-- Ribbon Tab #1: Home -->
+                <RibbonTab Header="Autorzy" KeyTip="H" >
+                    <!-- Home  group-->
+                    <RibbonGroup x:Name="ClipboardGroup" Header="Autorzy">
+                        <RibbonButton Name="PatientButton" Label="Autorzy" KeyTip="X" Command="{Binding AuthorsCommand}"/>
+                    </RibbonGroup>
+                </RibbonTab>
+                <!--Ribbon Tab #2:-->
+                <RibbonTab Header="Typy książek" KeyTip="L">
+                    <RibbonGroup x:Name="TypeBooks" Header="Typy książek">
+                        <RibbonButton  Label="Typy książek" KeyTip="P" Command="{Binding TypesBooksCommand}" />
+                    </RibbonGroup>
+                </RibbonTab>
+                <!--Ribbon Tab #3:-->
+                <RibbonTab Header="Książki" KeyTip="I">
+                    <RibbonGroup x:Name="Books" Header="Książki">
+                        <RibbonButton Name="BooksButton" Label="Książki" KeyTip="X" Command="{Binding BooksCommand}"/>
+                    </RibbonGroup>
+                </RibbonTab>
+            </Ribbon>
+        </Grid>
+       
+        <StackPanel Grid.Row="1" Background="WhiteSmoke" Width="Auto" Height="Auto">
+            <ContentControl x:Name="Pages" Content="{Binding SelectedView}"/>
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

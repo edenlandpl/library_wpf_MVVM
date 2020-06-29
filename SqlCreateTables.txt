@@ -1,0 +1,3 @@
+create table authors (authorId int NOT NULL, firstName varchar(50), lastName varchar(50), primary key(authorId))
+create table typeBook (typeBookId int NOT NULL, nameTypeBook varchar(50), primary key(typeBookId))
+create table books (bookId int NOT NULL, titileBook varchar(50), authorId int, typeBookID int, publisher varchar(50), releaseDate date,primary key(bookId), foreign key (authorId) references authors(authorId), foreign key (typeBookId) references typeBook(typeBookId))

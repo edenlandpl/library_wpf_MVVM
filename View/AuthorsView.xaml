@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Biblioteka.View.AuthorsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Biblioteka.View"
+      xmlns:vm="clr-namespace:Biblioteka.ViewModel"
+      xmlns:localVMDT="clr-namespace:Biblioteka.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:AuthorsViewModel x:Key="vm"></vm:AuthorsViewModel>
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Grid  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="450"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid MinWidth="300" Grid.Column="0" >
+                    <DataGrid Margin="5,5,0,9.6" x:Name="authorsSQLTable" ItemsSource="{Binding AuthorsList }" SelectedItem="{Binding SelectedRow}" SelectionMode="Single" AutoGenerateColumns="False" 
+                              CanUserAddRows="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path='Id', Mode=TwoWay}" IsReadOnly="True" Width="40" />
+                            <DataGridTextColumn Header="Imię autora" Binding="{Binding Path='FirstNameAuthor', Mode=TwoWay}" IsReadOnly="True" Width="170"/>
+                            <DataGridTextColumn Header="Nazwisko autora" Binding="{Binding Path='LastNameAuthor', Mode=TwoWay}" IsReadOnly="True" Width="170"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" >
+                    <Label>Imię autora</Label>
+                    <TextBox Text="{Binding NewFirstNameAuthor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Label>Nazwisko autora</Label>
+                    <TextBox Text="{Binding NewLastNameAuthor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <Button x:Name="createAuthor" Command="{Binding addAuthorCommand}" IsEnabled="{Binding CanCreate}" Content="Dodaj dane autora" Grid.Column="2"   Grid.Row="1" />
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="2" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="31*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Button x:Name="updatePatient" Command="{Binding updateAuthorCommand}" IsEnabled="{Binding IsSelected}" Content="Edytuj dane autora" Grid.Column="0"   Grid.Row="1"/>-->
+
+                <Button x:Name="deleteAuthor" Command="{Binding deleteAuthorCommand}" IsEnabled="{Binding IsSelected}" Content="Usuń dane autora" Grid.Column="2"/>
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="2" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Button x:Name="createDiagnosis" Command="{Binding addDiagnosisCommand}" IsEnabled="{Binding IsSelected}" Content="Dodaj diagnozę" Grid.Column="0"   Grid.Row="1" />
+                <Button x:Name="createTherapy" Command="{Binding addTherapyCommand}" IsEnabled="{Binding IsSelected}" Content="Dodaj terapię" Grid.Column="1"   Grid.Row="1" />
+                <Button x:Name="createActivity" Command="{Binding addActivityCommand}"  IsEnabled="{Binding IsSelected}" Content="Dodaj aktywność" Grid.Column="2"   Grid.Row="1" />-->
+            </Grid>
+        </DockPanel>
+        <!--<Button x:Name="updatePatient" IsEnabled="{Binding IsSelected}" Command="{Binding updateCommand}" Content="Edytuj pacjenta" Grid.Column="2"   Grid.Row="2"/>-->
+        <!--WZÓR GRID-->
+        <Grid Grid.Row="0" Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+</UserControl>
